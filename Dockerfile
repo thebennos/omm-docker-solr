@@ -1,7 +1,7 @@
 FROM    java:8
 MAINTAINER  Martijn Koster "mak-docker@greenhills.co.uk"
 
-ENV SOLR_VERSION 0.0.0
+ENV SOLR_VERSION 5.2.1
 ENV SOLR solr-$SOLR_VERSION
 ENV SOLR_USER solr
 
@@ -14,7 +14,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
   groupadd -r $SOLR_USER && \
   useradd -r -g $SOLR_USER $SOLR_USER && \
   mkdir -p /opt && \
-  wget -nv --output-document=/opt/$SOLR.tgz http://archive.apache.org/dist/lucene/solr/$SOLR_VERSION/$SOLR.tgz && \
+  wget -nv --output-document=/opt/$SOLR.tgz http://www.us.apache.org/dist/lucene/solr/$SOLR_VERSION/$SOLR.tgz && \
   tar -C /opt --extract --file /opt/$SOLR.tgz && \
   rm /opt/$SOLR.tgz && \
   ln -s /opt/$SOLR /opt/solr && \
