@@ -1,6 +1,6 @@
 
 FROM    java:8
-MAINTAINER  Martijn Koster "mak-docker@greenhills.co.uk"
+MAINTAINER  benjamin Wenderoth "b.wenderoth@gmail.com"
 
 ENV SOLR_VERSION 5.2.1
 ENV SOLR solr-$SOLR_VERSION
@@ -24,4 +24,5 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 EXPOSE 8983
 WORKDIR /opt/solr
 USER $SOLR_USER
-CMD ["/bin/bash", "-c", "/opt/solr/bin/solr -f"]
+CMD ["/bin/bash", "-c", "/opt/solr/bin/solr start -f -z $ZK_PORT_2181_TCP_ADDR:$ZK_PORT_2181_TCP_PORT"]
+
