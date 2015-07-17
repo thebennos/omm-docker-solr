@@ -10,7 +10,8 @@ RUN [ -e /usr/bin/apt-get ] && apt-get update && apt-get install -y patch unzip 
 
 #
 ## SOLR INSTALLATION
-ENV SOLR_VERSION 5.2.0
+ENV SOLR_VERSION 5.2.1
+ENV SOLR_MEM_SIZE 512m
 ENV SOLR solr-$SOLR_VERSION
 ADD http://mirrors.gigenet.com/apache/lucene/solr/$SOLR_VERSION/$SOLR.tgz /tmp/$SOLR.tgz
 RUN mkdir -p /opt \
@@ -18,6 +19,7 @@ RUN mkdir -p /opt \
  && ln -sf /opt/$SOLR /opt/solr \
  && rm /tmp/$SOLR.tgz
 ##
+#
 
 #
 ## JDBC
@@ -42,23 +44,5 @@ RUN echo mysql-connector-java-$JDBC_MYSQL_VERSION/mysql-connector-java-$JDBC_MYS
 EXPOSE 8983
 ADD ./docker-entrypoint.sh /entrypoint.sh
 WORKDIR /opt/solr
-
 ENTRYPOINT ["/entrypoint.sh"]
-
-
-# Add Drupal schema files.
-#RUN git clone --branch 7.x-1.x http://git.drupal.org/project/search_api_solr.git && \
-#  mkdir -p /opt/solr/server/solr/drupal/conf && \   
-#  cp search_api_solr/solr-conf/5.x/* /opt/solr/server/solr/drupal/conf && \
-#  rm -rf ./search_api_solr*
-#RUN /opt/solr/bin/solr start && \
-#  sleep 10 && \
-#  /opt/solr/bin/solr create -c drupal -d /opt/solr/server/solr/drupal
-
-#VOLUME ["/opt/solr/server/solr/drupal/data", "/opt/solr/server/solr/drupal/conf"]
-
-#EXPOSE 8983
-#WORKDIR /opt/solr
-#USER $SOLR_USER
-#CMD ["/bin/bash", "-c", "/opt/solr/bin/solr start -f -m $SOLR_MEM_SIZE -z 8983]
 
