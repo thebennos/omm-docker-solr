@@ -47,5 +47,5 @@ VOLUME ["/opt/solr/server/solr/drupal/data", "/opt/solr/server/solr/drupal/conf"
 EXPOSE 8983
 WORKDIR /opt/solr
 USER $SOLR_USER
-CMD ["/bin/bash", "-c", "/opt/solr/bin/solr start -f -m $SOLR_MEM_SIZE -z $ZK_PORT_2181_TCP_ADDR:$ZK_PORT_2181_TCP_PORT"]
+CMD ["/bin/bash", "-c", "/opt/solr/bin/solr start -f -m $SOLR_MEM_SIZE -z 8983]
 
