@@ -1,5 +1,4 @@
-
-FROM    java:8
+FROM anapsix/alpine-java
 MAINTAINER  benjamin Wenderoth "b.wenderoth@gmail.com"
 
 ENV SOLR_VERSION 5.2.1
@@ -7,11 +6,17 @@ ENV SOLR solr-$SOLR_VERSION
 ENV SOLR_USER solr
 ENV SOLR_MEM_SIZE 512m
 
+## install required utils
+RUN [ -e /sbin/apk ] && apk add bash; [ -e /bin/bash ]
+RUN [ -e /usr/bin/apt-get ] && apt-get update && apt-get install -y patch curl git wget unzip && apt-get clean all; which unzip && which patch
+##
+
 RUN export DEBIAN_FRONTEND=noninteractive && \
   apt-get update && \
   apt-get -y install \
     curl \
     lsof \
+	git \
     procps && \
   groupadd -r $SOLR_USER && \
   useradd -r -g $SOLR_USER $SOLR_USER && \
@@ -23,15 +28,15 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
   chown -R $SOLR_USER:$SOLR_USER /opt/solr /opt/$SOLR
 
 ## JDBC
-ENV JDBC_MYSQL_VERSION 5.1.35
-ENV JDBC_PSQL_VERSION 9.3-1103.jdbc41
+# ENV JDBC_MYSQL_VERSION 5.1.35
+# ENV JDBC_PSQL_VERSION 9.3-1103.jdbc41
 # PostgreSQL
-ADD http://jdbc.postgresql.org/download/postgresql-$JDBC_PSQL_VERSION.jar /opt/solr/dist/postgresql-$JDBC_PSQL_VERSION.jar
+# ADD http://jdbc.postgresql.org/download/postgresql-$JDBC_PSQL_VERSION.jar /opt/solr/dist/postgresql-$JDBC_PSQL_VERSION.jar
 # MySQL
-ADD http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-$JDBC_MYSQL_VERSION.tar.gz /tmp/mysql-connector-java-$JDBC_MYSQL_VERSION.tar.gz
-RUN echo mysql-connector-java-$JDBC_MYSQL_VERSION/mysql-connector-java-$JDBC_MYSQL_VERSION-bin.jar > /tmp/include \
- && gzip -dc /tmp/mysql-connector-java-$JDBC_MYSQL_VERSION.tar.gz | tar -x -T /tmp/include > /opt/solr/dist/mysql-connector-java-$JDBC_MYSQL_VERSION-bin.jar \
- && rm -rf /tmp/*  
+#ADD http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-$JDBC_MYSQL_VERSION.tar.gz /tmp/mysql-connector-java-$JDBC_MYSQL_VERSION.tar.gz
+#RUN echo mysql-connector-java-$JDBC_MYSQL_VERSION/mysql-connector-java-$JDBC_MYSQL_VERSION-bin.jar > /tmp/include \
+# && gzip -dc /tmp/mysql-connector-java-$JDBC_MYSQL_VERSION.tar.gz | tar -x -T /tmp/include > /opt/solr/dist/mysql-connector-java-$JDBC_MYSQL_VERSION-bin.jar \
+# && rm -rf /tmp/*  
 
 # Add Drupal schema files.
 RUN git clone --branch 7.x-1.x http://git.drupal.org/project/search_api_solr.git && \
