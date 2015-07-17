@@ -11,14 +11,7 @@ RUN [ -e /sbin/apk ] && apk add bash; [ -e /bin/bash ]
 RUN [ -e /usr/bin/apt-get ] && apt-get update && apt-get install -y patch curl git wget unzip && apt-get clean all; which unzip && which patch
 ##
 
-RUN export DEBIAN_FRONTEND=noninteractive && \
-  apt-get update && \
-  apt-get -y install \
-    curl \
-    lsof \
-	git \
-    procps && \
-  groupadd -r $SOLR_USER && \
+RUN groupadd -r $SOLR_USER && \
   useradd -r -g $SOLR_USER $SOLR_USER && \
   mkdir -p /opt && \
   wget -nv --output-document=/opt/$SOLR.tgz http://www.us.apache.org/dist/lucene/solr/$SOLR_VERSION/$SOLR.tgz && \
