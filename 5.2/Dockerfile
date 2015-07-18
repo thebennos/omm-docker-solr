@@ -4,7 +4,7 @@ MAINTAINER Benjamin Wenderoth "b.wenderoth@gmail.com"
 #
 ## install required utils
 RUN [ -e /sbin/apk ] && apk add bash; [ -e /bin/bash ]
-RUN [ -e /usr/bin/apt-get ] && apt-get update && apt-get install -y patch unzip && apt-get clean all; which unzip && which patch
+RUN [ -e /usr/bin/apt-get ] && apt-get update && apt-get install -y patch unzip git && apt-get clean all; which unzip && which patch
 ##
 #
 
@@ -35,6 +35,19 @@ RUN echo mysql-connector-java-$JDBC_MYSQL_VERSION/mysql-connector-java-$JDBC_MYS
 ##
 #
 
+## getting drupal files and creating core. 
+# Add Drupal schema files.
+RUN git clone --branch 7.x-1.x http://git.drupal.org/project/search_api_solr.git && \
+  mkdir -p /opt/solr/server/solr/drupal/conf && \   
+  cp search_api_solr/solr-conf/5.x/* /opt/solr/server/solr/drupal/conf && \
+  rm -rf ./search_api_solr*
+
+# Create a Drupal Solr core.
+RUN /opt/solr/bin/solr start && \
+  sleep 10 && \
+  /opt/solr/bin/solr create -c core1 -d /opt/solr/server/solr/core1
+
+VOLUME ["/opt/solr/server/solr/drupal/core1", "/opt/solr/server/solr/drupal/core1"]
 
 EXPOSE 8983
 ADD ./docker-entrypoint.sh /entrypoint.sh
@@ -42,4 +55,4 @@ RUN chmod +x /entrypoint.sh
 WORKDIR /opt/solr
 ENTRYPOINT ["/entrypoint.sh"]
 #CMD ["/entrypoint.sh"] # if needed we can overwrite the default command. 
-CMD ["/bin/bash", "-c", "/opt/solr/bin/solr create_core -c core1"]
+#CMD ["/bin/bash", "-c", "/opt/solr/bin/solr create_core -c core1"]
