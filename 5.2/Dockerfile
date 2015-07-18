@@ -42,7 +42,9 @@ RUN wget http://ftp.drupal.org/files/projects/search_api_solr-7.x-1.8.zip && \
   unzip search_api_solr-7.x-1.8.zip && \
   mkdir -p /opt/solr/server/solr/core1/conf && \   
   cp search_api_solr/solr-conf/5.x/* /opt/solr/server/solr/core1/conf && \
+  mkdir -p /opt/solr/server/solr/core2/conf && \  
   cp search_api_solr/solr-conf/5.x/* /opt/solr/server/solr/core2/conf && \
+  mkdir -p /opt/solr/server/solr/core3/conf && \  
   cp search_api_solr/solr-conf/5.x/* /opt/solr/server/solr/core3/conf && \
   rm -rf ./search_api_solr*
 
