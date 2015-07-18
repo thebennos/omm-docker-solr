@@ -44,11 +44,6 @@ RUN wget http://ftp.drupal.org/files/projects/search_api_solr-7.x-1.8.zip && \
   cp search_api_solr/solr-conf/5.x/* /opt/solr/server/solr/drupal/conf && \
   rm -rf ./search_api_solr*
 
-# Create a Drupal Solr core.
-RUN /bin/bash -c /opt/solr/bin/solr start && \
-  sleep 10 && \
-  /opt/solr/bin/solr create -c core1 -d /opt/solr/server/solr/core1
-
 VOLUME ["/opt/solr/server/solr/drupal/core1", "/opt/solr/server/solr/drupal/core1"]
 
 EXPOSE 8983
