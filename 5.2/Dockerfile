@@ -50,6 +50,6 @@ EXPOSE 8983
 ADD ./docker-entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 WORKDIR /opt/solr
-ENTRYPOINT ["/entrypoint.sh"]
-#CMD ["/entrypoint.sh"] # if needed we can overwrite the default command. 
+#ENTRYPOINT ["/entrypoint.sh"]
+CMD ["/entrypoint.sh"] 
 #CMD ["/bin/bash", "-c", "/opt/solr/bin/solr create_core -c core1"]
