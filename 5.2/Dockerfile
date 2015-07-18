@@ -40,8 +40,8 @@ RUN echo mysql-connector-java-$JDBC_MYSQL_VERSION/mysql-connector-java-$JDBC_MYS
 # Getting the stable release with solr5 support 
 RUN wget http://ftp.drupal.org/files/projects/search_api_solr-7.x-1.8.zip && \
   unzip search_api_solr-7.x-1.8.zip && \
-  mkdir -p /opt/solr/server/solr/drupal/conf && \   
-  cp search_api_solr/solr-conf/5.x/* /opt/solr/server/solr/drupal/conf && \
+  mkdir -p /opt/solr/server/solr/core1/conf && \   
+  cp search_api_solr/solr-conf/5.x/* /opt/solr/server/solr/core1/conf && \
   rm -rf ./search_api_solr*
 
 VOLUME ["/opt/solr/server/solr/drupal/core1", "/opt/solr/server/solr/drupal/core1"]
