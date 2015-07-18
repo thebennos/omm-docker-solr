@@ -45,7 +45,7 @@ RUN wget http://ftp.drupal.org/files/projects/search_api_solr-7.x-1.8.zip && \
   rm -rf ./search_api_solr*
 
 # Create a Drupal Solr core.
-RUN /opt/solr/bin/solr start && \
+RUN /bin/bash -c /opt/solr/bin/solr start && \
   sleep 10 && \
   /opt/solr/bin/solr create -c core1 -d /opt/solr/server/solr/core1
 
