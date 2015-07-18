@@ -4,7 +4,7 @@ MAINTAINER Benjamin Wenderoth "b.wenderoth@gmail.com"
 #
 ## install required utils
 RUN [ -e /sbin/apk ] && apk add bash; [ -e /bin/bash ]
-RUN [ -e /usr/bin/apt-get ] && apt-get update && apt-get install -y patch unzip git && apt-get clean all; which unzip && which patch
+RUN [ -e /usr/bin/apt-get ] && apt-get update && apt-get install -y patch unzip wget curl && apt-get clean all; which unzip && which patch
 ##
 #
 
@@ -37,7 +37,9 @@ RUN echo mysql-connector-java-$JDBC_MYSQL_VERSION/mysql-connector-java-$JDBC_MYS
 
 ## getting drupal files and creating core. 
 # Add Drupal schema files.
-RUN git clone --branch 7.x-1.x http://git.drupal.org/project/search_api_solr.git && \
+# Getting the stable release with solr5 support 
+RUN wget http://ftp.drupal.org/files/projects/search_api_solr-7.x-1.8.zip && \
+  unzip search_api_solr-7.x-1.8.zip && \
   mkdir -p /opt/solr/server/solr/drupal/conf && \   
   cp search_api_solr/solr-conf/5.x/* /opt/solr/server/solr/drupal/conf && \
   rm -rf ./search_api_solr*
