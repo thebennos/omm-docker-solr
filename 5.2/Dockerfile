@@ -42,3 +42,4 @@ RUN chmod +x /entrypoint.sh
 WORKDIR /opt/solr
 ENTRYPOINT ["/entrypoint.sh"]
 #CMD ["/entrypoint.sh"] # if needed we can overwrite the default command. 
+CMD ["/bin/bash", "-c", "/opt/solr/bin/solr create_core -c core1"]
