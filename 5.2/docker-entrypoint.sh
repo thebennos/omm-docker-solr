@@ -24,4 +24,4 @@ set -e
 #fi
 
 
-echo "fin."
+echo "finished! 0123456789"
