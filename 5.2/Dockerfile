@@ -35,14 +35,9 @@ RUN echo mysql-connector-java-$JDBC_MYSQL_VERSION/mysql-connector-java-$JDBC_MYS
 ##
 #
 
-#
-## CLEANUP
-#RUN rm -rfv /tmp/*
-##
-#
 
 EXPOSE 8983
 ADD ./docker-entrypoint.sh /entrypoint.sh
 WORKDIR /opt/solr
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]
 
