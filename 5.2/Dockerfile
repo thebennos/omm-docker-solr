@@ -11,7 +11,7 @@ RUN [ -e /usr/bin/apt-get ] && apt-get update && apt-get install -y patch unzip 
 #
 ## SOLR INSTALLATION
 ENV SOLR_VERSION 5.2.1
-ENV SOLR_MEM_SIZE 512m
+ENV SOLR_MEM_SIZE 256m
 ENV SOLR solr-$SOLR_VERSION
 ADD http://mirrors.gigenet.com/apache/lucene/solr/$SOLR_VERSION/$SOLR.tgz /tmp/$SOLR.tgz
 RUN mkdir -p /opt \
